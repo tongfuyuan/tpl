@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-2.1.1.js"></script>
+    <script src="underscore.js"></script>
+</head>
+<body>
+
+    <ul id="co">
+        <!--<li>-->
+            <!--<button class="addBtn" data-index="0">add</button>-->
+            <!--<button class="delBtn" data-index="0">del</button>-->
+            <!--<div class="li">-->
+                <!--按钮-->
+            <!--</div>-->
+        <!--</li>-->
+    </ul>
+    <button id="new">新增</button>
+    <button id="del">删除</button>
+
+
+
+    <script type="text/template" id="tplLi">
+        <%
+        console.log(data)
+        _.each(data, function(i,index){ %>
+        <li>
+
+
+            <% if(i.isBtn){ %>
+            <button class="delBtn" data-index="<%= index %>">del</button>
+            <div class="li">
+                按钮
+            </div>
+            <% }else{%>
+            <button class="addBtn" data-index="<%= index %>">add</button>
+            <% }%>
+        </li>
+        <% }); %>
+    </script>
+
+    <script>
+        $(function () {
+            // 初始化数据
+            var arr = [
+                {isBtn:false},
+                {isBtn:false},
+                {isBtn:false},
+                {isBtn:false},
+            ]
+            // 渲染试图
+            function  render(arr,target) {
+
+                target.html(_.template($("#tplLi").html())({data:arr}));
+            }
+            // 初始化
+            render(arr,$('#co'))
+
+            // 添加列表
+            $('#new').on('click',function () {
+                arr.push({isBtn:false})
+                render(arr,$('#co'))
+            })
+
+            // 删除列表
+            $('#del').on('click',function () {
+                arr.push({isBtn:false})
+                render(arr,$('#co'))
+            })
+
+
+
+            $('#co').on('click',function (e) {
+
+                var index = $(e.target).attr('data-index');
+                switch ($(e.target).attr('class')){
+                    case "addBtn":
+                        arr[index].isBtn=true
+                        break;
+                    case "delBtn":
+                        arr[index].isBtn=false
+                        break;
+                }
+
+                render(arr,$(this))
+            })
+
+
+        })
+
+    </script>
+
+</body>
+</html>
